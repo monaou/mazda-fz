@@ -76,8 +76,11 @@ function TaskRegistration() {
                 for (const file of files) {
                     console.log("file.cid:", file.cid)
                     const usdcContract = new ethers.Contract(USDC_ADDRESS, ERC20_ABI, signer);  // NOTE: ERC20トークンのABIにはapproveメソッドが含まれている必要があります
+                    const rewardInString = (reward * 1000000).toString();
+                    const parsedReward = ethers.utils.parseUnits(rewardInString, 6);
+                    console.log("ethers.utils.parseUnits(reward * 1000000, 6):", parsedReward)
                     try {
-                        const tx = await usdcContract.approve(RewardPool.address, ethers.utils.parseUnits(reward * 1000000, 6));  // USDCは小数点以下6桁なので、6を指定
+                        const tx = await usdcContract.approve(RewardPool.address, parsedReward);  // USDCは小数点以下6桁なので、6を指定
                         await tx.wait();
                         console.log("Allowance set successfully");
                     } catch (err) {

@@ -47,6 +47,9 @@ export const useTasks = (address, mode_arg) => {
                     case mode.NFT:
                         tokenIds = await contract.getCreatedAndEndedNFTs();
                         break;
+                    default:
+                        tokenIds = await contract.getCreatedAndEndedNFTs();
+                        break;
                 }
 
                 const fetchedNFTs = [];
@@ -64,7 +67,7 @@ export const useTasks = (address, mode_arg) => {
                         name: tokenData.name,
                         description: tokenData.description,
                         image: tokenData.image, // 画像のURIも追加
-                        reward: tokenData.reward,
+                        reward: tokenData.reward / 1000000,
                         owner: tokenData.owner,
                         created_time: tokenData.created_time,
                         end_time: tokenData.end_time,

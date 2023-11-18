@@ -7,6 +7,10 @@ async function main() {
   const contestInstance = await ContestContract.deploy();
   await contestInstance.deployed();
 
+  const ProductContract = await hre.ethers.getContractFactory("ProductContract");
+  const ProductInstance = await ProductContract.deploy(contestInstance.address);
+  await ProductInstance.deployed();
+
   const RewardPool = await hre.ethers.getContractFactory("RewardPool");
   const adminAddress = process.env.OWNER_ADDRESS;
   const usdcAddress = "0x0fa8781a83e46826621b3bc094ea2a0212e71b23";  // <-- あなたのUSDCアドレスに置き換えてください

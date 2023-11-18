@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import styled from 'styled-components';
 import RewardPool from '../shared_json/RewardPool.json';
-import { ERC20_ABI } from '../shared_json/Erc20_mumbai';
 import { Web3Storage } from 'web3.storage'
 import { ethers } from 'ethers';
 
@@ -12,7 +11,6 @@ const WarningMessage = styled.p`
   margin-top: 10px;
   font-size: 12px;
 `;
-const USDC_ADDRESS = "0x0fa8781a83e46826621b3bc094ea2a0212e71b23"
 
 function ProductRegistration() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -20,9 +18,6 @@ function ProductRegistration() {
     const [previewImage, setPreviewImage] = useState(null);
     const [taskName, setTaskName] = useState("");
     const [taskDesp, setTaskDesp] = useState("");
-    const [reward, setReward] = useState("");
-    const [endTime, setEndTime] = useState("");
-    const [classTypes, setClassTypes] = useState([""]);
     const [warningMessage, setWarningMessage] = useState("");
 
     const openModal = () => {
@@ -56,7 +51,7 @@ function ProductRegistration() {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
 
-        if (!image || !taskName || !taskDesp || !reward || !classTypes) {
+        if (!image || !taskName || !taskDesp) {
             setWarningMessage("All fields must be filled in.");
             return;
         }
@@ -76,23 +71,12 @@ function ProductRegistration() {
                 const files = await res.files() // Web3File[]
                 for (const file of files) {
                     console.log("file.cid:", file.cid)
-                    const usdcContract = new ethers.Contract(USDC_ADDRESS, ERC20_ABI, signer);  // NOTE: ERC20トークンのABIにはapproveメソッドが含まれている必要があります
-                    try {
-                        const tx = await usdcContract.approve(RewardPool.address, ethers.utils.parseUnits(reward * 1000000, 6));  // USDCは小数点以下6桁なので、6を指定
-                        await tx.wait();
-                        console.log("Allowance set successfully");
-                    } catch (err) {
-                        console.error("An error occurred while setting the allowance", err);
-                    }
                     const contract_pay = new ethers.Contract(RewardPool.address, RewardPool.abi, signer);
                     try {
                         const tx = await contract_pay.stakeReward(
                             taskName,
                             file.cid.toString(),
-                            taskDesp,
-                            parseInt(reward * 1000000),
-                            parseInt(endTime),
-                            classTypes
+                            taskDesp
                         );
                         await tx.wait();
                         console.log('Data has been saved successfully', { tx });
