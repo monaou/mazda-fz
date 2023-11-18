@@ -34,8 +34,7 @@ contract RewardPool {
         string memory imageURI,
         string memory description,
         uint256 reward,
-        uint256 end_time,
-        string[] memory classTypes
+        uint256 end_time
     ) external {
         uint256 tokenId = contestContract.mintIpfsNFT(
             msg.sender,
@@ -43,8 +42,7 @@ contract RewardPool {
             imageURI,
             description,
             reward,
-            end_time,
-            classTypes
+            end_time
         );
 
         require(

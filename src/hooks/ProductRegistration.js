@@ -44,15 +44,6 @@ function ProductRegistration() {
         reader.readAsDataURL(file);
     };
 
-    const handleAddClassType = () => {
-        setClassTypes([...classTypes, ""]);
-    };
-    const handleChangeClassType = (index, value) => {
-        const newClassTypes = [...classTypes];
-        newClassTypes[index] = value;
-        setClassTypes(newClassTypes);
-    };
-
     const handleProductRegistration = async () => {
         // Check if MetaMask (or another web3 provider) is injected into window
         const { ethereum } = window;

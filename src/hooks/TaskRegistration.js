@@ -22,7 +22,6 @@ function TaskRegistration() {
     const [taskDesp, setTaskDesp] = useState("");
     const [reward, setReward] = useState("");
     const [endTime, setEndTime] = useState("");
-    const [classTypes, setClassTypes] = useState([""]);
     const [warningMessage, setWarningMessage] = useState("");
 
     const openModal = () => {
@@ -44,15 +43,6 @@ function TaskRegistration() {
         reader.readAsDataURL(file);
     };
 
-    const handleAddClassType = () => {
-        setClassTypes([...classTypes, ""]);
-    };
-    const handleChangeClassType = (index, value) => {
-        const newClassTypes = [...classTypes];
-        newClassTypes[index] = value;
-        setClassTypes(newClassTypes);
-    };
-
     const handleTaskRegistration = async () => {
         // Check if MetaMask (or another web3 provider) is injected into window
         const { ethereum } = window;
@@ -65,7 +55,7 @@ function TaskRegistration() {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
 
-        if (!image || !taskName || !taskDesp || !reward || !classTypes) {
+        if (!image || !taskName || !taskDesp || !reward) {
             setWarningMessage("All fields must be filled in.");
             return;
         }
@@ -100,8 +90,7 @@ function TaskRegistration() {
                             file.cid.toString(),
                             taskDesp,
                             parseInt(reward * 1000000),
-                            parseInt(endTime),
-                            classTypes
+                            parseInt(endTime)
                         );
                         await tx.wait();
                         console.log('Data has been saved successfully', { tx });
@@ -117,9 +106,9 @@ function TaskRegistration() {
 
     return (
         <div>
-            <button onClick={openModal}>Create Task</button>
+            <button onClick={openModal}>Create Contest</button>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <h2>Create Task</h2>
+                <h2>Create Contest</h2>
                 {/* 画像のプレビュー表示 */}
                 {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100px', height: '100px' }} />}
                 <input type="file" onChange={handleImageUpload} />
@@ -147,19 +136,6 @@ function TaskRegistration() {
                     value={endTime}
                     onChange={(e) => setEndTime(e.target.value)}
                 />
-                <h3>classTypeList</h3>
-                {classTypes.map((classType, index) => (
-                    <div key={index}>
-                        <span>{index + 1}. </span>
-                        <input
-                            type="text"
-                            placeholder="class type"
-                            value={classType}
-                            onChange={(e) => handleChangeClassType(index, e.target.value)}
-                        />
-                    </div>
-                ))}
-                <button onClick={handleAddClassType}>Add Class Type</button>
                 {warningMessage && <WarningMessage>{warningMessage}</WarningMessage>}
                 <button onClick={handleTaskRegistration}>Create</button>
             </Modal>

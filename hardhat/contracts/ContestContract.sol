@@ -33,11 +33,11 @@ contract ContestContract is ERC721Enumerable {
         string memory imageURI,
         string memory description,
         uint256 reward,
-        uint256 end_time,
-        string[] memory classTypes
+        uint256 end_time
     ) public returns (uint256) {
         uint256 newItemId = _tokenIds;
         _safeMint(sender, newItemId);
+        string[] memory tempClass;
         Web3Nfts.push(
             NftAttributes({
                 name: name,
@@ -46,7 +46,7 @@ contract ContestContract is ERC721Enumerable {
                 reward: reward,
                 created_timestamp: block.timestamp,
                 end_time: end_time,
-                class: classTypes,
+                class: tempClass,
                 owner_address: sender,
                 label: "",
                 votingEnded: false
@@ -105,6 +105,10 @@ contract ContestContract is ERC721Enumerable {
             abi.encodePacked("data:application/json;base64,", json)
         );
         return output;
+    }
+
+    function AddClass(uint256 contest_id, string memory name) external {
+        Web3Nfts[contest_id].class.push(name);
     }
 
     function getTokensByOwner() public view returns (uint256[] memory) {
