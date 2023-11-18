@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "./libraries/Base64.sol";
 
 contract ContestContract is ERC721Enumerable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+    uint private _tokenIds;
 
     struct NftAttributes {
         string name;
@@ -38,7 +36,7 @@ contract ContestContract is ERC721Enumerable {
         uint256 end_time,
         string[] memory classTypes
     ) public returns (uint256) {
-        uint256 newItemId = _tokenIds.current();
+        uint256 newItemId = _tokenIds;
         _safeMint(sender, newItemId);
         Web3Nfts.push(
             NftAttributes({
@@ -54,7 +52,7 @@ contract ContestContract is ERC721Enumerable {
                 votingEnded: false
             })
         );
-        _tokenIds.increment();
+        _tokenIds = _tokenIds + 1;
         return newItemId;
     }
 
@@ -110,7 +108,7 @@ contract ContestContract is ERC721Enumerable {
     }
 
     function getTokensByOwner() public view returns (uint256[] memory) {
-        uint256 totalNfts = _tokenIds.current();
+        uint256 totalNfts = _tokenIds;
         uint256[] memory matchingTokens = new uint256[](totalNfts);
 
         uint256 counter = 0;
@@ -189,7 +187,7 @@ contract ContestContract is ERC721Enumerable {
     }
 
     function getVotingActiveNFTs() external view returns (uint256[] memory) {
-        uint256 totalNfts = _tokenIds.current();
+        uint256 totalNfts = _tokenIds;
         uint256[] memory tempNfts = new uint256[](totalNfts);
         uint256 count = 0;
 
@@ -209,7 +207,7 @@ contract ContestContract is ERC721Enumerable {
     }
 
     function getVotedAndEndedNFTs() external view returns (uint256[] memory) {
-        uint256 totalNfts = _tokenIds.current();
+        uint256 totalNfts = _tokenIds;
         uint256[] memory matchingTokens = new uint256[](totalNfts);
         uint256 counter = 0;
         for (uint256 i = 0; i < totalNfts; i++) {
@@ -229,7 +227,7 @@ contract ContestContract is ERC721Enumerable {
     }
 
     function getCreatedAndEndedNFTs() external view returns (uint256[] memory) {
-        uint256 totalNfts = _tokenIds.current();
+        uint256 totalNfts = _tokenIds;
         uint256[] memory matchingTokens = new uint256[](totalNfts);
         uint256 counter = 0;
         for (uint256 i = 0; i < totalNfts; i++) {

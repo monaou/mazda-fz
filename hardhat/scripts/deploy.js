@@ -1,49 +1,32 @@
+// We require the Hardhat Runtime Environment explicitly here. This is optional
+// but useful for running the script in a standalone fashion through `node <script>`.
+//
+// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
+// will compile your contracts, add the Hardhat Runtime Environment's members to the
+// global scope, and execute the script.
 const hre = require("hardhat");
-const fs = require("fs");
-const path = require("path");
 
 async function main() {
-  const ContestContract = await hre.ethers.getContractFactory("ContestContract");
-  const contestInstance = await ContestContract.deploy();
-  await contestInstance.deployed();
+  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
+  const unlockTime = currentTimestampInSeconds + 60;
 
-  const RewardPool = await hre.ethers.getContractFactory("RewardPool");
-  const adminAddress = process.env.OWNER_ADDRESS;
-  const usdcAddress = "0x0fa8781a83e46826621b3bc094ea2a0212e71b23";  // <-- あなたのUSDCアドレスに置き換えてください
+  const lockedAmount = hre.ethers.parseEther("0.001");
 
-  const rewardPoolInstance = await RewardPool.deploy(contestInstance.address, adminAddress, usdcAddress);
-  await rewardPoolInstance.deployed();
+  const lock = await hre.ethers.deployContract("Lock", [unlockTime], {
+    value: lockedAmount,
+  });
 
-  console.log("ContestContract deployed to:", contestInstance.address);
-  console.log("RewardPool deployed to:", rewardPoolInstance.address);
+  await lock.waitForDeployment();
 
-  // Save the artifacts in the shared_json directory
-  const directoryPath = path.join(__dirname, "../../src/shared_json");
-
-  if (!fs.existsSync(directoryPath)) {
-    fs.mkdirSync(directoryPath, { recursive: true });
-  }
-
-  const contestArtifact = await hre.artifacts.readArtifact("ContestContract");
-  fs.writeFileSync(
-    path.join(directoryPath, "ContestContract.json"),
-    JSON.stringify({
-      address: contestInstance.address,
-      abi: contestArtifact.abi
-    })
-  );
-
-  const rewardPoolArtifact = await hre.artifacts.readArtifact("RewardPool");
-  fs.writeFileSync(
-    path.join(directoryPath, "RewardPool.json"),
-    JSON.stringify({
-      address: rewardPoolInstance.address,
-      abi: rewardPoolArtifact.abi
-    })
+  console.log(
+    `Lock with ${ethers.formatEther(
+      lockedAmount
+    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
   );
 }
 
-// Handle errors
+// We recommend this pattern to be able to use async/await everywhere
+// and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
