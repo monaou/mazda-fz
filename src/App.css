@@ -32,7 +32,143 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+/* App.css */
+
+/* ボタンのスタイル */
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007BFF;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* テーブルのスタイル */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ddd;
+}
+
+th,
+td {
+  padding: 8px 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* テキストフォームのスタイル */
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* inputボタンのスタイル */
+input[type="button"] {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007BFF;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+input[type="button"]:hover {
+  background-color: #0056b3;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #eee;
+  /* ヘッダーの背景色 */
+  border-bottom: 5px solid #333;
+  /* リボンの効果 */
+}
+
+.wallet-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* 各アイテムの間隔 */
+}
+
+/* App.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  background-color: #333;
+}
+
+.nav-button {
+  flex: 1;
+  padding: 10px 20px;
+  background-color: #555;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #45a049;
+}
+
+/* App.css */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  background-color: #333;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-link {
+  padding: 10px 20px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #45a049;
+}
+
+.footer-copyright {
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
 }
