@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import styled from 'styled-components';
-import RewardPool from '../shared_json/RewardPool.json';
+import ProductContract from '../shared_json/ProductContract.json';
 import { Web3Storage } from 'web3.storage'
 import { ethers } from 'ethers';
 
@@ -12,7 +12,7 @@ const WarningMessage = styled.p`
   font-size: 12px;
 `;
 
-function ProductRegistration() {
+function ProductRegistration({ contest_id }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
@@ -71,9 +71,10 @@ function ProductRegistration() {
                 const files = await res.files() // Web3File[]
                 for (const file of files) {
                     console.log("file.cid:", file.cid)
-                    const contract_pay = new ethers.Contract(RewardPool.address, RewardPool.abi, signer);
+                    const contract_pay = new ethers.Contract(ProductContract.address, ProductContract.abi, signer);
                     try {
-                        const tx = await contract_pay.stakeReward(
+                        const tx = await contract_pay.mintProductNFT(
+                            contest_id,
                             taskName,
                             file.cid.toString(),
                             taskDesp

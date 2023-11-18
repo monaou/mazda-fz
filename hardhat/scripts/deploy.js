@@ -8,8 +8,8 @@ async function main() {
   await contestInstance.deployed();
 
   const ProductContract = await hre.ethers.getContractFactory("ProductContract");
-  const ProductInstance = await ProductContract.deploy(contestInstance.address);
-  await ProductInstance.deployed();
+  const productInstance = await ProductContract.deploy(contestInstance.address);
+  await productInstance.deployed();
 
   const RewardPool = await hre.ethers.getContractFactory("RewardPool");
   const adminAddress = process.env.OWNER_ADDRESS;
@@ -19,6 +19,7 @@ async function main() {
   await rewardPoolInstance.deployed();
 
   console.log("ContestContract deployed to:", contestInstance.address);
+  console.log("productInstance deployed to:", productInstance.address);
   console.log("RewardPool deployed to:", rewardPoolInstance.address);
 
   // Save the artifacts in the shared_json directory
@@ -34,6 +35,15 @@ async function main() {
     JSON.stringify({
       address: contestInstance.address,
       abi: contestArtifact.abi
+    })
+  );
+
+  const productArtifact = await hre.artifacts.readArtifact("ProductContract");
+  fs.writeFileSync(
+    path.join(directoryPath, "ProductContract.json"),
+    JSON.stringify({
+      address: productInstance.address,
+      abi: productArtifact.abi
     })
   );
 

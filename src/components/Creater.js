@@ -33,7 +33,7 @@ function Creater({ address, provider }) {
                                 <td>{task.created_time}</td>
                                 <td>{task.end_time}</td>
                                 <td>
-                                    <ProductRegistration task_id={task.id} />
+                                    <ProductRegistration contest_id={task.id} />
                                     {/* <CheckVote task={task} /> */}
                                 </td>
                             </tr>

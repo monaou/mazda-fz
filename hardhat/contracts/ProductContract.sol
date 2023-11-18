@@ -23,22 +23,21 @@ contract ProductContract is ERC721Enumerable {
         contestContract = ContestContract(_contestContractAddress);
     }
 
-    function mintIpfsNFT(
+    function mintProductNFT(
         uint256 contest_id,
-        address sender,
         string memory name,
         string memory imageURI,
         string memory description
     ) public returns (uint256) {
         uint256 newItemId = _tokenIds;
-        _safeMint(sender, newItemId);
+        _safeMint(msg.sender, newItemId);
         Web3Nfts.push(
             NftAttributes({
                 name: name,
                 imageURL: imageURI,
                 description: description,
                 created_timestamp: block.timestamp,
-                owner_address: sender
+                owner_address: msg.sender
             })
         );
         contestContract.AddClass(contest_id, name);
