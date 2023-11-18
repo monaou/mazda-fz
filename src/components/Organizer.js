@@ -1,15 +1,15 @@
 import React from 'react';
-import ProductRegistration from '../hooks/ProductRegistration';
-import CheckVote from '../hooks/CheckVote';
+import TaskStoping from '../hooks/TaskStoping';
+import TaskRegistration from '../hooks/TaskRegistration';
 import { useTasks } from "../hooks/useTask";
 import { mode } from "../constants/modeConstants";
 
-function Creater({ address, provider }) {
-    const [tasks, loading] = useTasks(address, mode.ALL);
+function Organizer({ address, provider }) {
+    const [tasks, loading] = useTasks(address, mode.TASK);
 
     return (
         <div className="nft-list">
-
+            <TaskRegistration />
             {loading ? (
                 <p>Loading NFTs...</p>
             ) : (
@@ -33,8 +33,7 @@ function Creater({ address, provider }) {
                                 <td>{task.created_time}</td>
                                 <td>{task.end_time}</td>
                                 <td>
-                                    <ProductRegistration task_id={task.id} />
-                                    {/* <CheckVote task={task} /> */}
+                                    <TaskStoping task={task} />
                                 </td>
                             </tr>
                         ))}
@@ -45,4 +44,4 @@ function Creater({ address, provider }) {
     );
 }
 
-export default Creater;
+export default Organizer;

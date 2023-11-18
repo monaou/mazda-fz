@@ -1,0 +1,73 @@
+/* Home.css */
+.home-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.feature-card {
+    width: 80%;
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.feature-card h2 {
+    color: #007bff;
+}
+
+.feature-card p {
+    text-align: center;
+    color: #555;
+}
+
+/* Home.css (追加分のみ) */
+.feature-title-link {
+    text-decoration: none;
+    color: inherit;
+    /* タイトルの色を維持する */
+    transition: color 0.2s ease-in-out;
+    /* ホバーエフェクトのためのアニメーション */
+}
+
+.feature-title-link:hover {
+    color: #0056b3;
+    /* ホバー時の色 */
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.feature-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    justify-items: center;
+    margin-top: 20px;
+}
+
+.feature-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
