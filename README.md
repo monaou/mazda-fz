@@ -21,7 +21,8 @@ Ethereum Blockchain
 Smart Contracts
 React for Frontend Development
 Ethers.js for Ethereum Integration
-How We Built It
+
+## How We Built It
 Mazda Fan Zoneは、イーサリアムブロックチェーンを基盤とし、スマートコントラクトを活用して、分散型の投票システムとトークンエコノミーを構築しました。フロントエンド開発にはReactを使用し、Ethers.jsを通じてブロックチェーンとの連携を実現しています。
 
 ## What We Learned
