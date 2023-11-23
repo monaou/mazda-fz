@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import styled from 'styled-components';
 import ContestContract from '../shared_json/ContestContract.json';
-import RewardPool from '../shared_json/RewardPool.json';
-import { Web3Storage } from 'web3.storage'
+import ProductContract from '../shared_json/ProductContract.json';
 import { ethers } from 'ethers';
 
 const WarningMessage = styled.p`
@@ -15,9 +14,48 @@ const WarningMessage = styled.p`
 
 function LabelingPanel({ contest }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [selectedClassForVote, setSelectedClassForVote] = useState("");
+    const [selectedClassForVote, setSelectedClassForVote] = useState(0);
     const [warningMessage, setWarningMessage] = useState('');
     const classTypes = contest.class || []; // ここでクラスタイプを取得するか、API等から取得する
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const loadProducts = async () => {
+            const newProducts = await Promise.all(classTypes.map(async (classType) => {
+                const productData = await fetchProductData(classType);
+                return productData;
+            }));
+            setProducts(newProducts);
+        };
+
+        loadProducts();
+    }, [classTypes]);
+
+    const fetchProductData = async (classType) => {
+        const { ethereum } = window;
+
+        if (!ethereum) {
+            console.error("No web3 provider detected");
+            return;
+        }
+
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+
+        const contract = new ethers.Contract(ProductContract.address, ProductContract.abi, signer);
+        const classTypeBN = ethers.BigNumber.from(classType);
+        const tokenURI = await contract.tokenURI(classTypeBN);
+        const jsonBase64 = tokenURI.split(",")[1];
+        const jsonString = atob(jsonBase64);
+        const data = JSON.parse(jsonString);
+        return {
+            id: classType,
+            name: data.name,
+            description: data.description,
+            image: convertIpfsToHttpUrl(data.image),
+            address: data.owner // 仮にアドレス情報が含まれていると仮定
+        };
+    };
 
     const openModal = () => {
         setModalIsOpen(true);
@@ -78,11 +116,17 @@ function LabelingPanel({ contest }) {
                 <strong>End Time:</strong> {contest.end_time}
 
                 <h2>Select Product:</h2>
-                <select value={selectedClassForVote} onChange={(e) => setSelectedClassForVote(e.target.value)}>
-                    {classTypes.map((classType, index) => (
-                        <option key={index} value={classType}>{classType}</option>
+                <div style={{ overflowX: 'auto', display: 'flex' }}>
+                    {products.map((product, index) => (
+                        <div key={index} style={{ margin: '10px' }}>
+                            {product.image && <img src={convertIpfsToHttpUrl(product.image)} alt="product Image" style={{ width: '150px', height: '150px', marginBottom: '20px' }} />}
+                            <div>Name: {product.name}</div>
+                            <div>Description: {product.description}</div>
+                            <div>Address: {product.address}</div>
+                            <button onClick={() => setSelectedClassForVote(product.id)}>Select</button>
+                        </div>
                     ))}
-                </select>
+                </div>
                 {warningMessage && <WarningMessage>{warningMessage}</WarningMessage>}
                 <button onClick={handleVoteForClass}>Vote</button>
             </Modal>

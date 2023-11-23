@@ -65,7 +65,11 @@ contract ContestContract is ERC721Enumerable {
         string memory classString = "";
         for (uint256 i = 0; i < thisNFT.class.length; i++) {
             classString = string(
-                abi.encodePacked(classString, thisNFT.class[i], ",")
+                abi.encodePacked(
+                    classString,
+                    Strings.toString(thisNFT.class[i]),
+                    ","
+                )
             );
         }
 
@@ -92,7 +96,7 @@ contract ContestContract is ERC721Enumerable {
                             uint256(uint160(thisNFT.owner_address))
                         ),
                         '", "label": "',
-                        thisNFT.label,
+                        Strings.toString(thisNFT.label),
                         '", "votingEnded": "',
                         thisNFT.votingEnded ? "true" : "false",
                         '"}'

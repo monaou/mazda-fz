@@ -59,8 +59,7 @@ export const useTasks = (address, mode_arg) => {
                     const jsonBase64 = tokenURI.split(",")[1];
                     const jsonString = atob(jsonBase64);
                     const tokenData = JSON.parse(jsonString);
-
-                    const classArray = tokenData.class.split(","); // classStringを配列に変換
+                    const classArray = tokenData.class.split(",").filter(element => element !== '');
 
                     fetchedNFTs.push({
                         id: tokenId.toNumber(),
