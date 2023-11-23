@@ -75,14 +75,7 @@ contract RewardPool {
         uint256 matchingVotersCount = 0;
 
         for (uint256 i = 0; i < voters.length; i++) {
-            if (
-                keccak256(
-                    abi.encodePacked(
-                        contestContract.getUserVote(tokenId, voters[i])
-                    )
-                ) ==
-                keccak256(abi.encodePacked(contestContract.getLabelOf(tokenId)))
-            ) {
+            if (contestContract.getUserVote(tokenId, voters[i])) {
                 matchingVotersCount++;
             }
         }
@@ -91,14 +84,7 @@ contract RewardPool {
         uint256 rewardPerUser = pendingRewards[tokenId] / matchingVotersCount;
 
         for (uint256 i = 0; i < voters.length; i++) {
-            if (
-                keccak256(
-                    abi.encodePacked(
-                        contestContract.getUserVote(tokenId, voters[i])
-                    )
-                ) ==
-                keccak256(abi.encodePacked(contestContract.getLabelOf(tokenId)))
-            ) {
+            if (contestContract.getUserVote(tokenId, voters[i])) {
                 ditributeRewards[tokenId][voters[i]] += rewardPerUser;
             }
         }

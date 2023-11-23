@@ -66,27 +66,26 @@ function App() {
           </div>
         </header>
         {warning && <div className="warning-message">{warning}</div>}
-        <nav className="navbar">
-          <Link className="nav-button" to="/">Home</Link>
-          <Link className="nav-button" to="/organizer">Organizer</Link>
-          <Link className="nav-button" to="/creater">Creater</Link>
-          <Link className="nav-button" to="/voter">Voter</Link>
-          <Link className="nav-button" to="/reward">Reward</Link>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/organizer" element={<Organizer address={address} provider={provider} />} />
-          <Route path="/creater" element={<Creater address={address} provider={provider} />} />
-          <Route path="/voter" element={<Voter address={address} provider={provider} />} />
-          <Route path="/reward" element={<Reward address={address} provider={provider} />} />
-        </Routes>
-      </div>
-      <div className="footer">
-        <Link className="footer-link" to="/discord">Discord</Link>
-        <Link className="footer-link" to="/document">Document</Link>
-        <span className="footer-copyright">&copy; 2023 MazdaFanZone</span>
-      </div>
+        <div className="main-section">
+          <nav className="navbar">
+            <Link className="nav-button" to="/">Home</Link>
+            <Link className="nav-button" to="/organizer">開催</Link>
+            <Link className="nav-button" to="/creater">開発</Link>
+            <Link className="nav-button" to="/voter">投票</Link>
+            <Link className="nav-button" to="/reward">報酬</Link>
+          </nav>
 
+          <div className="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/organizer" element={<Organizer address={address} provider={provider} />} />
+              <Route path="/creater" element={<Creater address={address} provider={provider} />} />
+              <Route path="/voter" element={<Voter address={address} provider={provider} />} />
+              <Route path="/reward" element={<Reward address={address} provider={provider} />} />
+            </Routes>
+          </div>
+        </div>
+      </div>
     </Router>
   );
 }

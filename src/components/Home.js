@@ -14,31 +14,31 @@ function Home() {
 
             <div className="feature-cards">
                 <div className="feature-card">
-                    <Link to="/tasks" className="feature-title-link">
-                        <h2>Tasks</h2>
+                    <Link to="/organizer" className="feature-title-link">
+                        <h2>開催</h2>
                     </Link>
-                    <p>View and participate in a variety of tasks available in the NFT ecosystem.</p>
+                    <p>コンテストの開催ができます</p>
                 </div>
 
                 <div className="feature-card">
-                    <Link to="/labeling-reward" className="feature-title-link">
-                        <h2>Task Rewards</h2>
+                    <Link to="/creater" className="feature-title-link">
+                        <h2>開発</h2>
                     </Link>
-                    <p>Earn rewards by completing tasks and contributing to the community.</p>
+                    <p>プロダクトの提出ができます</p>
                 </div>
 
                 <div className="feature-card">
-                    <Link to="/you-tasks" className="feature-title-link">
-                        <h2>Labels</h2>
+                    <Link to="/voter" className="feature-title-link">
+                        <h2>投票</h2>
                     </Link>
-                    <p>Manage your tasks, keep track of your progress, and engage with the community.</p>
+                    <p>好きなプロダクトに投票できます.</p>
                 </div>
 
                 <div className="feature-card">
-                    <Link to="/labeling-nft" className="feature-title-link">
-                        <h2>Label NFTs</h2>
+                    <Link to="/reward" className="feature-title-link">
+                        <h2>報酬</h2>
                     </Link>
-                    <p>Own a piece of the community's efforts by holding unique NFTs representing your contributions.</p>
+                    <p>投票結果に応じた報酬を取得できます</p>
                 </div>
             </div>
         </div>

@@ -17,7 +17,6 @@ function Voter({ address, provider }) {
                             <th>name</th>
                             <th>description</th>
                             <th>reward</th>
-                            <th>owner</th>
                             <th>created_time</th>
                             <th>end_time</th>
                             <th>link</th>
@@ -29,7 +28,6 @@ function Voter({ address, provider }) {
                                 <td>{task.name}</td>
                                 <td>{task.description}</td>
                                 <td>{task.reward}</td>
-                                <td>{task.owner}</td>
                                 <td>{task.created_time}</td>
                                 <td>{task.end_time}</td>
                                 <td>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-modal";
 import styled from 'styled-components';
 import ContestContract from '../shared_json/ContestContract.json';
@@ -14,10 +14,20 @@ const WarningMessage = styled.p`
 
 function LabelingPanel({ contest }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [selectedClassForVote, setSelectedClassForVote] = useState(0);
+    const [selectedClassForVote, setSelectedClassForVote] = useState(-1);
     const [warningMessage, setWarningMessage] = useState('');
     const classTypes = contest.class || []; // ここでクラスタイプを取得するか、API等から取得する
     const [products, setProducts] = useState([]);
+    const scrollContainerRef = useRef(null);
+    const [currentProductIndex, setCurrentProductIndex] = useState(0);
+
+    const scrollLeft = () => {
+        setCurrentProductIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    };
+
+    const scrollRight = () => {
+        setCurrentProductIndex((prevIndex) => Math.min(prevIndex + 1, products.length - 1));
+    };
 
     useEffect(() => {
         const loadProducts = async () => {
@@ -116,16 +126,25 @@ function LabelingPanel({ contest }) {
                 <strong>End Time:</strong> {contest.end_time}
 
                 <h2>Select Product:</h2>
-                <div style={{ overflowX: 'auto', display: 'flex' }}>
-                    {products.map((product, index) => (
-                        <div key={index} style={{ margin: '10px' }}>
-                            {product.image && <img src={convertIpfsToHttpUrl(product.image)} alt="product Image" style={{ width: '150px', height: '150px', marginBottom: '20px' }} />}
-                            <div>Name: {product.name}</div>
-                            <div>Description: {product.description}</div>
-                            <div>Address: {product.address}</div>
-                            <button onClick={() => setSelectedClassForVote(product.id)}>Select</button>
-                        </div>
-                    ))}
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <button onClick={scrollLeft}>＜</button>
+                    <div ref={scrollContainerRef} style={{ overflowX: 'auto', display: 'flex' }}>
+                        {products.map((product, index) => (
+                            <div key={index} style={{
+                                margin: '10px',
+                                backgroundColor: selectedClassForVote === product.id ? 'lightblue' : 'transparent',
+                                display: index === currentProductIndex ? 'block' : 'none'
+                            }}>
+                                {product.image && <img src={convertIpfsToHttpUrl(product.image)} alt="product Image" style={{ width: '150px', height: '150px', marginBottom: '20px' }} />}
+                                <div>Name: {product.name}</div>
+                                <div>Description: {product.description}</div>
+                                <div>Address: {product.address}</div>
+                                <button onClick={() => setSelectedClassForVote(product.id)}
+                                    style={{ backgroundColor: selectedClassForVote === product.id ? 'green' : 'blue' }}>Select</button>
+                            </div>
+                        ))}
+                    </div>
+                    <button onClick={scrollRight}>＞</button>
                 </div>
                 {warningMessage && <WarningMessage>{warningMessage}</WarningMessage>}
                 <button onClick={handleVoteForClass}>Vote</button>

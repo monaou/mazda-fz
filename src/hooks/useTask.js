@@ -37,7 +37,7 @@ export const useTasks = (address, mode_arg) => {
                         break;
 
                     case mode.REWARD:
-                        tokenIds = await contract.getVotedAndEndedNFTs(signer.getAddress());
+                        tokenIds = await contract.getVotedAndEndedNFTs();
                         break;
 
                     case mode.TASK:

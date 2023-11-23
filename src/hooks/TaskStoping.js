@@ -1,15 +1,8 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import styled from 'styled-components';
 import RewardPool from '../shared_json/RewardPool.json';
 import { ethers } from 'ethers';
 
-const StopingButton = styled.button`
-    background-color: ${props => props.disabled ? '#ccc' : '#007bff'};
-    color: ${props => props.disabled ? '#888' : '#fff'};
-    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-    // 他のスタイル設定もここに追加できます
-`;
 
 function TaskStoping({ task }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -53,7 +46,7 @@ function TaskStoping({ task }) {
 
     return (
         <div>
-            <StopingButton onClick={openModal} disabled={task.votingEnded}>Stoping</StopingButton>
+            <button onClick={openModal} disabled={task.votingEnded}>Stoping</button>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
                 <h3>Task Details:</h3>
                 {task.image && <img src={convertIpfsToHttpUrl(task.image)} alt="Task Image" style={{ width: '150px', height: '150px', marginBottom: '20px' }} />}
