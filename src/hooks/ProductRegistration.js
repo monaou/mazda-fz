@@ -12,7 +12,7 @@ const WarningMessage = styled.p`
   font-size: 12px;
 `;
 
-function ProductRegistration({ contest_id }) {
+function ProductRegistration({ contest }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [image, setImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
@@ -74,7 +74,7 @@ function ProductRegistration({ contest_id }) {
                     const contract_pay = new ethers.Contract(ProductContract.address, ProductContract.abi, signer);
                     try {
                         const tx = await contract_pay.mintProductNFT(
-                            contest_id,
+                            contest.id,
                             taskName,
                             file.cid.toString(),
                             taskDesp
@@ -90,11 +90,28 @@ function ProductRegistration({ contest_id }) {
             closeModal();
         }
     };
+    const convertIpfsToHttpUrl = (ipfsUrl) => {
+        if (ipfsUrl.startsWith('ipfs://')) {
+            return `https://ipfs.io/ipfs/${ipfsUrl.split('ipfs://')[1]}`;
+        }
+        return ipfsUrl;
+    }
 
     return (
         <div>
             <button onClick={openModal}>Create Product</button>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
+                <h2>Contest Details</h2>
+                <div>
+                    {contest.image && <img src={convertIpfsToHttpUrl(contest.image)} alt="contest Image" style={{ width: '150px', height: '150px', marginBottom: '20px' }} />}
+                    <br />
+                    <strong>ID:</strong> {contest.id}<br />
+                    <strong>Name:</strong> {contest.name}<br />
+                    <strong>Description:</strong> {contest.description}<br />
+                    <strong>Reward:</strong> {contest.reward}<br />
+                    <strong>Created Time:</strong> {contest.created_time}<br />
+                    <strong>End Time:</strong> {contest.end_time}
+                </div>
                 <h2>Create Product</h2>
                 {/* 画像のプレビュー表示 */}
                 {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100px', height: '100px' }} />}

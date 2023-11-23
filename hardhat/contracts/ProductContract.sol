@@ -40,7 +40,7 @@ contract ProductContract is ERC721Enumerable {
                 owner_address: msg.sender
             })
         );
-        contestContract.AddClass(contest_id, name);
+        contestContract.AddClass(contest_id, newItemId);
         _tokenIds = _tokenIds + 1;
         return newItemId;
     }

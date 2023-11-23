@@ -14,13 +14,13 @@ contract ContestContract is ERC721Enumerable {
         uint256 reward;
         uint256 created_timestamp;
         uint256 end_time;
-        string[] class;
+        uint256[] class;
         address owner_address;
-        string label;
+        uint256 label;
         bool votingEnded;
     }
-    mapping(uint256 => mapping(string => uint256)) public classVotes;
-    mapping(uint256 => mapping(address => string)) public userVotes;
+    mapping(uint256 => mapping(uint256 => uint256)) public classVotes;
+    mapping(uint256 => mapping(address => uint256)) public userVotes;
     mapping(uint256 => address[]) public tokenVoters;
 
     NftAttributes[] private Web3Nfts;
@@ -37,7 +37,7 @@ contract ContestContract is ERC721Enumerable {
     ) public returns (uint256) {
         uint256 newItemId = _tokenIds;
         _safeMint(sender, newItemId);
-        string[] memory tempClass;
+        uint256[] memory tempClass;
         Web3Nfts.push(
             NftAttributes({
                 name: name,
@@ -48,7 +48,7 @@ contract ContestContract is ERC721Enumerable {
                 end_time: end_time,
                 class: tempClass,
                 owner_address: sender,
-                label: "",
+                label: 0,
                 votingEnded: false
             })
         );
@@ -107,8 +107,8 @@ contract ContestContract is ERC721Enumerable {
         return output;
     }
 
-    function AddClass(uint256 contest_id, string memory name) external {
-        Web3Nfts[contest_id].class.push(name);
+    function AddClass(uint256 contest_id, uint256 class_id) external {
+        Web3Nfts[contest_id].class.push(class_id);
     }
 
     function getTokensByOwner() public view returns (uint256[] memory) {
@@ -134,20 +134,26 @@ contract ContestContract is ERC721Enumerable {
         return resultTokens;
     }
 
-    function voteForClass(uint256 tokenId, string memory classType) external {
+    function voteForClass(uint256 tokenId, uint256 class_id) external {
         require(Web3Nfts[tokenId].votingEnded == false, "Voting has ended");
-        if (bytes(userVotes[tokenId][msg.sender]).length == 0) {
+
+        bool is_address_check = false;
+        for (uint256 i = 0; i < tokenVoters[tokenId].length; i++) {
+            if (tokenVoters[tokenId][i] == msg.sender) {
+                is_address_check = true;
+                break;
+            }
+        }
+
+        if (is_address_check) {
+            uint256 previousVote = userVotes[tokenId][msg.sender];
+            classVotes[tokenId][previousVote]--;
+        } else {
             tokenVoters[tokenId].push(msg.sender);
         }
 
-        // 投票前のクラスをリセットする
-        string memory previousVote = userVotes[tokenId][msg.sender];
-        if (bytes(previousVote).length > 0) {
-            classVotes[tokenId][previousVote]--;
-        }
-
-        classVotes[tokenId][classType]++;
-        userVotes[tokenId][msg.sender] = classType;
+        classVotes[tokenId][class_id]++;
+        userVotes[tokenId][msg.sender] = class_id;
     }
 
     function endVoting(uint256 tokenId, address sender) external {
@@ -155,10 +161,10 @@ contract ContestContract is ERC721Enumerable {
         require(Web3Nfts[tokenId].votingEnded == false, "Voting already ended");
 
         // 投票を集計して最も得票数の多いクラスをlabelとする
-        string memory topClass;
+        uint256 topClass;
         uint256 topVotes = 0;
         for (uint256 i = 0; i < Web3Nfts[tokenId].class.length; i++) {
-            string memory currentClass = Web3Nfts[tokenId].class[i];
+            uint256 currentClass = Web3Nfts[tokenId].class[i];
             if (classVotes[tokenId][currentClass] > topVotes) {
                 topVotes = classVotes[tokenId][currentClass];
                 topClass = currentClass;
@@ -173,14 +179,14 @@ contract ContestContract is ERC721Enumerable {
         return Web3Nfts[tokenId].votingEnded;
     }
 
-    function getLabelOf(uint256 tokenId) external view returns (string memory) {
+    function getLabelOf(uint256 tokenId) external view returns (uint256) {
         return Web3Nfts[tokenId].label;
     }
 
     function getUserVote(
         uint256 tokenId,
         address user
-    ) external view returns (string memory) {
+    ) external view returns (uint256) {
         return userVotes[tokenId][user];
     }
 
@@ -215,10 +221,7 @@ contract ContestContract is ERC721Enumerable {
         uint256[] memory matchingTokens = new uint256[](totalNfts);
         uint256 counter = 0;
         for (uint256 i = 0; i < totalNfts; i++) {
-            if (
-                Web3Nfts[i].votingEnded &&
-                bytes(userVotes[i][msg.sender]).length > 0
-            ) {
+            if (Web3Nfts[i].votingEnded && userVotes[i][msg.sender] > 0) {
                 matchingTokens[counter] = i;
                 counter++;
             }

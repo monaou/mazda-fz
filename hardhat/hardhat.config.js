@@ -1,3 +1,4 @@
+// npx hardhat run scripts/deploy.js --network mumbai
 require("@nomicfoundation/hardhat-toolbox");
 require('dotenv').config();
 

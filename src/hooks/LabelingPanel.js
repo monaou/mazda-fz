@@ -13,11 +13,11 @@ const WarningMessage = styled.p`
   font-size: 12px;
 `;
 
-function LabelingPanel({ task }) {
+function LabelingPanel({ contest }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedClassForVote, setSelectedClassForVote] = useState("");
     const [warningMessage, setWarningMessage] = useState('');
-    const classTypes = task.class || []; // ここでクラスタイプを取得するか、API等から取得する
+    const classTypes = contest.class || []; // ここでクラスタイプを取得するか、API等から取得する
 
     const openModal = () => {
         setModalIsOpen(true);
@@ -45,7 +45,7 @@ function LabelingPanel({ task }) {
         const contract = new ethers.Contract(ContestContract.address, ContestContract.abi, signer);
 
         try {
-            const tx = await contract.voteForClass(task.id, selectedClassForVote);
+            const tx = await contract.voteForClass(contest.id, selectedClassForVote);
             await tx.wait();
             console.log('Voted successfully for the class', { tx });
             setWarningMessage("Successfully voted for the class!"); // Success message
@@ -65,16 +65,19 @@ function LabelingPanel({ task }) {
 
     return (
         <div>
-            <button onClick={openModal}>Labeling</button>
+            <button onClick={openModal}>Vote</button>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <h3>Task Details:</h3>
-                {task.image && <img src={convertIpfsToHttpUrl(task.image)} alt="Task Image" style={{ width: '150px', height: '150px', marginBottom: '20px' }} />}
-                <p>Name: {task.name}</p>
-                <p>Description: {task.description}</p>
-                <p>Reward: {task.reward}</p>
-                <p>End Time: {task.end_time}</p>
+                <h2>Contest Details:</h2>
+                {contest.image && <img src={convertIpfsToHttpUrl(contest.image)} alt="contest Image" style={{ width: '150px', height: '150px', marginBottom: '20px' }} />}
+                <br />
+                <strong>ID:</strong> {contest.id}<br />
+                <strong>Name:</strong> {contest.name}<br />
+                <strong>Description:</strong> {contest.description}<br />
+                <strong>Reward:</strong> {contest.reward}<br />
+                <strong>Created Time:</strong> {contest.created_time}<br />
+                <strong>End Time:</strong> {contest.end_time}
 
-                <h3>Vote for a class:</h3>
+                <h2>Select Product:</h2>
                 <select value={selectedClassForVote} onChange={(e) => setSelectedClassForVote(e.target.value)}>
                     {classTypes.map((classType, index) => (
                         <option key={index} value={classType}>{classType}</option>

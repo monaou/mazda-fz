@@ -33,7 +33,7 @@ function Voter({ address, provider }) {
                                 <td>{task.created_time}</td>
                                 <td>{task.end_time}</td>
                                 <td>
-                                    <LabelingPanel task={task} />
+                                    <LabelingPanel contest={task} />
                                 </td>
                             </tr>
                         ))}
