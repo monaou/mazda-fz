@@ -6,7 +6,7 @@ import Voter from './components/Voter'
 import Organizer from './components/Organizer'
 import Home from './components/Home'
 import { connectMetaMask, disconnectMetaMask } from "./components/wallet";
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, NavLink, Routes, useLocation } from 'react-router-dom';
 // CSSをインポート
 import './App.css';
 
@@ -68,11 +68,11 @@ function App() {
         {warning && <div className="warning-message">{warning}</div>}
         <div className="main-section">
           <nav className="navbar">
-            <Link className="nav-button" to="/">Home</Link>
-            <Link className="nav-button" to="/organizer">開催</Link>
-            <Link className="nav-button" to="/creater">開発</Link>
-            <Link className="nav-button" to="/voter">投票</Link>
-            <Link className="nav-button" to="/reward">報酬</Link>
+            <NavLink className="nav-button" activeClassName="active" to="/">Home</NavLink>
+            <NavLink className="nav-button" activeClassName="active" to="/organizer">開催</NavLink>
+            <NavLink className="nav-button" activeClassName="active" to="/creater">開発</NavLink>
+            <NavLink className="nav-button" activeClassName="active" to="/voter">投票</NavLink>
+            <NavLink className="nav-button" activeClassName="active" to="/reward">報酬</NavLink>
           </nav>
 
           <div className="main-content">

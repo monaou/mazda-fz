@@ -92,10 +92,20 @@ function ClaimReward({ contest }) {
         datasets: [{
             data: votingResults.map(result => result.percentage),
             backgroundColor: [
-                // ここに背景色を指定
+                '#FF6384', // 赤
+                '#36A2EB', // 青
+                '#FFCE56', // 黄色
+                '#4BC0C0', // シアン
+                '#9966FF', // 紫
+                '#FF9F40'  // オレンジ
             ],
             borderColor: [
-                // ここに境界線の色を指定
+                '#FFFFFF', // 白
+                '#FFFFFF',
+                '#FFFFFF',
+                '#FFFFFF',
+                '#FFFFFF',
+                '#FFFFFF'
             ],
             borderWidth: 1
         }]

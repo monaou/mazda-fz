@@ -29,7 +29,7 @@ export const useTasks = (address, mode_arg) => {
         const fetchNFTs = async () => {
             function convertUnixTimestampToJST(unixTimestamp) {
                 const date = new Date(unixTimestamp * 1000); // UNIXタイムスタンプをミリ秒に変換
-                date.setHours(date.getHours() + 9); // UTCからJSTに変換（9時間加算）
+                date.setHours(date.getHours()); // UTCからJSTに変換（9時間加算）
 
                 // 日付をYYYY-MM-DD HH:MM:SS形式にフォーマット
                 const year = date.getFullYear();

@@ -173,6 +173,14 @@ input[type="button"]:hover {
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+.nav-button.active {
+  background-color: #d3513a;
+  /* アクティブ時の背景色 */
+  border-color: #FF4500;
+  /* アクティブ時のボーダー色 */
+  /* 他のアクティブ時のスタイル */
+}
+
 .nav-button:hover {
   transform: scale(1.05);
   background-color: #FF6347;

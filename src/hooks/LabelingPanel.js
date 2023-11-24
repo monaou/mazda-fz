@@ -41,6 +41,16 @@ function LabelingPanel({ contest }) {
         loadProducts();
     }, [classTypes]);
 
+    function base64ToUint8Array(base64) {
+        const raw = atob(base64);
+        const uint8Array = new Uint8Array(new ArrayBuffer(raw.length));
+
+        for (let i = 0; i < raw.length; i++) {
+            uint8Array[i] = raw.charCodeAt(i);
+        }
+        return uint8Array;
+    }
+
     const fetchProductData = async (classType) => {
         const { ethereum } = window;
 
@@ -56,7 +66,9 @@ function LabelingPanel({ contest }) {
         const classTypeBN = ethers.BigNumber.from(classType);
         const tokenURI = await contract.tokenURI(classTypeBN);
         const jsonBase64 = tokenURI.split(",")[1];
-        const jsonString = atob(jsonBase64);
+        const byteArray = base64ToUint8Array(jsonBase64); // Uint8Array に変換
+        const jsonString = new TextDecoder('utf-8').decode(byteArray); // UTF-8 文字列にデコード
+
         const data = JSON.parse(jsonString);
         return {
             id: classType,
