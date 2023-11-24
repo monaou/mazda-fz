@@ -18,7 +18,6 @@ function Reward({ address, provider }) {
                             <th>説明</th>
                             <th>報酬</th>
                             <th>作成日</th>
-                            <th>終了日</th>
                             <th>リンク</th>
                         </tr>
                     </thead>
@@ -29,7 +28,6 @@ function Reward({ address, provider }) {
                                 <td>{task.description}</td>
                                 <td>{task.reward}</td>
                                 <td>{task.created_time}</td>
-                                <td>{task.end_time}</td>
                                 <td>
                                     <ClaimReward contest={task} />
                                 </td>

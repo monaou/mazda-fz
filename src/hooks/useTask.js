@@ -27,6 +27,20 @@ export const useTasks = (address, mode_arg) => {
         }
 
         const fetchNFTs = async () => {
+            function convertUnixTimestampToJST(unixTimestamp) {
+                const date = new Date(unixTimestamp * 1000); // UNIXタイムスタンプをミリ秒に変換
+                date.setHours(date.getHours() + 9); // UTCからJSTに変換（9時間加算）
+
+                // 日付をYYYY-MM-DD HH:MM:SS形式にフォーマット
+                const year = date.getFullYear();
+                const month = ('0' + (date.getMonth() + 1)).slice(-2); // 月は0から始まるので1を加算
+                const day = ('0' + date.getDate()).slice(-2);
+                const hours = ('0' + date.getHours()).slice(-2);
+                const minutes = ('0' + date.getMinutes()).slice(-2);
+                const seconds = ('0' + date.getSeconds()).slice(-2);
+
+                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            }
             function base64ToUint8Array(base64) {
                 const raw = atob(base64);
                 const uint8Array = new Uint8Array(new ArrayBuffer(raw.length));
@@ -80,7 +94,7 @@ export const useTasks = (address, mode_arg) => {
                         image: tokenData.image, // 画像のURIも追加
                         reward: tokenData.reward / 1000000,
                         owner: tokenData.owner,
-                        created_time: tokenData.created_time,
+                        created_time: convertUnixTimestampToJST(tokenData.created_time),
                         end_time: tokenData.end_time,
                         class: classArray, // 変換されたclassの配列
                         ownerAddress: tokenData.owner, // ownerAddressの情報を追加
