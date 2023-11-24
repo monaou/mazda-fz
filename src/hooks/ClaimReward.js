@@ -126,9 +126,9 @@ function ClaimReward({ contest }) {
 
     return (
         <div>
-            <button onClick={openModal}>Claim</button>
+            <button onClick={openModal}>請求</button>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <h2>Contest Details:</h2>
+                <h2>コンテスト詳細</h2>
                 {contest.image && <img src={convertIpfsToHttpUrl(contest.image)} alt="contest Image" style={{ width: '150px', height: '150px', marginBottom: '20px' }} />}
                 <br />
                 <strong>ID:</strong> {contest.id}<br />
@@ -138,7 +138,7 @@ function ClaimReward({ contest }) {
                 <strong>Created Time:</strong> {contest.created_time}<br />
                 <strong>End Time:</strong> {contest.end_time}
 
-                <h2>Voting Results:</h2>
+                <h2>投票結果</h2>
                 <div style={{ width: '300px', height: '300px' }}>
                     <Pie data={data} />
                 </div>
@@ -157,7 +157,7 @@ function ClaimReward({ contest }) {
                         ))}
                     </div>
                 </div> */}
-                <button onClick={handleClaimReward}>Claim Reward</button>
+                <button onClick={handleClaimReward}>報酬請求</button>
             </Modal>
 
         </div>

@@ -113,9 +113,9 @@ function LabelingPanel({ contest }) {
 
     return (
         <div>
-            <button onClick={openModal}>Vote</button>
+            <button onClick={openModal}>投票</button>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <h2>Contest Details:</h2>
+                <h2>コンテスト詳細</h2>
                 {contest.image && <img src={convertIpfsToHttpUrl(contest.image)} alt="contest Image" style={{ width: '150px', height: '150px', marginBottom: '20px' }} />}
                 <br />
                 <strong>ID:</strong> {contest.id}<br />
@@ -125,7 +125,7 @@ function LabelingPanel({ contest }) {
                 <strong>Created Time:</strong> {contest.created_time}<br />
                 <strong>End Time:</strong> {contest.end_time}
 
-                <h2>Select Product:</h2>
+                <h2>プロダクト選択</h2>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <button onClick={scrollLeft}>＜</button>
                     <div ref={scrollContainerRef} style={{ overflowX: 'auto', display: 'flex' }}>
@@ -147,7 +147,7 @@ function LabelingPanel({ contest }) {
                     <button onClick={scrollRight}>＞</button>
                 </div>
                 {warningMessage && <WarningMessage>{warningMessage}</WarningMessage>}
-                <button onClick={handleVoteForClass}>Vote</button>
+                <button onClick={handleVoteForClass}>投票</button>
             </Modal>
         </div>
     );

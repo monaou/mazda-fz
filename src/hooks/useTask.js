@@ -27,6 +27,16 @@ export const useTasks = (address, mode_arg) => {
         }
 
         const fetchNFTs = async () => {
+            function base64ToUint8Array(base64) {
+                const raw = atob(base64);
+                const uint8Array = new Uint8Array(new ArrayBuffer(raw.length));
+
+                for (let i = 0; i < raw.length; i++) {
+                    uint8Array[i] = raw.charCodeAt(i);
+                }
+                return uint8Array;
+            }
+
             try {
                 const contract = new ethers.Contract(ContestContract.address, ContestContract.abi, signer);
                 let tokenIds = [];
@@ -57,7 +67,9 @@ export const useTasks = (address, mode_arg) => {
                     const tokenURI = await contract.tokenURI(tokenId);
                     // tokenURIからBase64エンコードされたJSONを取得してデコード
                     const jsonBase64 = tokenURI.split(",")[1];
-                    const jsonString = atob(jsonBase64);
+                    const byteArray = base64ToUint8Array(jsonBase64); // Uint8Array に変換
+                    const jsonString = new TextDecoder('utf-8').decode(byteArray); // UTF-8 文字列にデコード
+
                     const tokenData = JSON.parse(jsonString);
                     const classArray = tokenData.class.split(",").filter(element => element !== '');
 

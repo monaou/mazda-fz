@@ -99,9 +99,9 @@ function ProductRegistration({ contest }) {
 
     return (
         <div>
-            <button onClick={openModal}>Create Product</button>
+            <button onClick={openModal}>プロダクト作成</button>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <h2>Contest Details</h2>
+                <h2>コンテスト詳細</h2>
                 <div>
                     {contest.image && <img src={convertIpfsToHttpUrl(contest.image)} alt="contest Image" style={{ width: '150px', height: '150px', marginBottom: '20px' }} />}
                     <br />
@@ -112,7 +112,7 @@ function ProductRegistration({ contest }) {
                     <strong>Created Time:</strong> {contest.created_time}<br />
                     <strong>End Time:</strong> {contest.end_time}
                 </div>
-                <h2>Create Product</h2>
+                <h2>プロダクト作成</h2>
                 {/* 画像のプレビュー表示 */}
                 {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100px', height: '100px' }} />}
                 <input type="file" onChange={handleImageUpload} />

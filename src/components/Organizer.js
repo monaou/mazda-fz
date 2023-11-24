@@ -16,12 +16,12 @@ function Organizer({ address, provider }) {
                 <table>
                     <thead>
                         <tr>
-                            <th>name</th>
-                            <th>description</th>
-                            <th>reward</th>
-                            <th>created_time</th>
-                            <th>end_time</th>
-                            <th>link</th>
+                            <th>名前</th>
+                            <th>説明</th>
+                            <th>報酬</th>
+                            <th>作成日</th>
+                            <th>終了日</th>
+                            <th>リンク</th>
                         </tr>
                     </thead>
                     <tbody>

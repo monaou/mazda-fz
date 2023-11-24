@@ -46,7 +46,7 @@ function TaskStoping({ task }) {
 
     return (
         <div>
-            <button onClick={openModal} disabled={task.votingEnded}>Stoping</button>
+            <button onClick={openModal} disabled={task.votingEnded}>停止</button>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
                 <h3>Task Details:</h3>
                 {task.image && <img src={convertIpfsToHttpUrl(task.image)} alt="Task Image" style={{ width: '150px', height: '150px', marginBottom: '20px' }} />}

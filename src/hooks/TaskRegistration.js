@@ -109,9 +109,9 @@ function TaskRegistration() {
 
     return (
         <div>
-            <button onClick={openModal}>Create Contest</button>
+            <button onClick={openModal}>コンテスト作成</button>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-                <h2>Create Contest</h2>
+                <h2>コンテスト作成</h2>
                 {/* 画像のプレビュー表示 */}
                 {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100px', height: '100px' }} />}
                 <input type="file" onChange={handleImageUpload} />
@@ -140,7 +140,7 @@ function TaskRegistration() {
                     onChange={(e) => setEndTime(e.target.value)}
                 />
                 {warningMessage && <WarningMessage>{warningMessage}</WarningMessage>}
-                <button onClick={handleTaskRegistration}>Create</button>
+                <button onClick={handleTaskRegistration}>作成</button>
             </Modal>
         </div>
     );
